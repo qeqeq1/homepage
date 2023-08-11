@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>捐赠支持项目</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: url('https://cdn.486486486.xyz/miko-storage/2023/02/c430aef51e8524b2dd57d1639f005585.webp') center/cover no-repeat;
+        }
+
+        a {
+            color: #007BFF;
+            /* 设置链接颜色 */
+            text-decoration: none;
+            /* 去除下划线 */
+            transition: color 0.3s;
+            /* 添加颜色过渡效果 */
+        }
+
+        a:hover {
+            color: #0056b3;
+            /* 鼠标悬停时的链接颜色 */
+        }
+
+        .header {
+            background: rgba(73, 73, 73, 0.244);
+            color: #fff;
+            text-align: center;
+            padding: 3rem;
+            backdrop-filter: blur(3px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        .call-to-action {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .donate-button {
+            background-color: #FF5722;
+            color: #fff;
+            padding: 1.5rem 3rem;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+        }
+
+        .donate-button:hover {
+            background-color: #F4511E;
+        }
+
+        .project-info {
+            background-color: #fff3e0;
+            padding: 1.5rem;
+            border-radius: 4px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+        }
+
+        .donor-list {
+            margin-top: 2rem;
+            padding: 1rem;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .donor-list h3 {
+            margin-bottom: 1rem;
+        }
+
+        .donor {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer {
+            background-color: hwb(0 20% 80% / 0.347);
+            color: #fff;
+            text-align: center;
+            padding: 1rem;
+            backdrop-filter: blur(2px);
+        }
+
+        /*弹出层样式*/
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            backdrop-filter: blur(8px);
+            /* 毛玻璃效果 */
+            background-color: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .modal-content {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 4px;
+            box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            animation: slideIn 0.3s ease;
+            position: relative;
+            /* 添加定位 */
+
+        }
+
+        .modal-content img {
+            max-width: 100%;
+            /* 控制图片最大宽度为父元素的宽度 */
+            height: auto;
+            /* 让高度根据宽度自适应，避免图片变形 */
+
+            @keyframes slideIn {
+                from {
+                    transform: translateY(-50px);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .close-button {
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                cursor: pointer;
+                animation: none;
+            }
+
+            .close-button-animation {
+                animation: fadeIn 0.3s ease;
+            }
+
+            /*加载样式*/
+            .loading-container {
+                position: fixed;
+                z-index: 999;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: #fff;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .loading-animation {
+                border: 8px solid #f3f3f3;
+                border-top: 8px solid #3498db;
+                border-radius: 50%;
+                width: 40px;
+                height: 40px;
+                animation: spin 2s linear infinite;
+            }
+
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+    </style>
+</head>
+
+<body>
+
+    <div class="loading-container" id="loadingContainer">
+        <div class="loading-animation"></div>
+    </div>
+
+
+    <div class="header">
+        <h1>支持我们的项目</h1>
+        <p>共同创造更美好的世界，为我们的项目提供服务器支持！</p>
+    </div>
+    <div class="container">
+        <h2>项目简介</h2>
+        <p>由于特殊原因，《次元复苏》网站在中国大陆地区访问性欠佳。为保证用户体验，本人自2023年4月起无偿承担《次元复苏》官网的运行、下载加速和静态资源分发服务，并提供攻击防御与安全防护。迄今为止已成功响应数十万次请求与近万次APK下载、更新、分发。这产生了一定的服务器资源费用
+        </p>
+        <p>近日该游戏登入Taptap热门榜单，引得众多玩家青睐。然而，CDN三日消耗流量已达200GB[1]。为了保证服务平稳、高效，现希望您对我伸出援手。</p>
+        <p>免费的Cloudflare\Cachefly\Gcore等CDN在国内部分地区经常出现无法访问情况。这对于无法上架应用商店、依赖热更新的APP是致命的。</p>
+        <p>[1]2023.8.9-2023.8.11数据统计得到
+        <h2>您的捐赠</h2>
+        <p>您的捐赠将直接用于支持项目的服务器和基础设施成本。通过您的支持，我们可以继续提供高质量的服务，推动技术创新，并使项目更加强大。</p>
+        <p>需要注意的是，本项目与次元复苏计划无隶属关系</p>
+        <div class="call-to-action">
+            <h2>一起参与！</h2>
+            <p>您可以通过捐赠服务器来支持我们的项目。每一元人民币都为项目的平稳运行作出了贡献。</p>
+            <p>在捐赠之前，请确保您已经阅读并同意我们的
+                <a href="#legalModal" id="legalLink">法务说明</a>
+            <p>
+                <a class="donate-button">立即捐赠</a>
+
+        </div>
+
+        <div class="donor-list">
+            <h3>捐赠者列表</h3>
+            <div class="donor">John Doe</div>
+            <div class="donor">Jane Smith</div>
+            <div class="donor">Michael Johnson</div>
+            <!-- 添加更多捐赠者 -->
+        </div>
+        <div class="project-info">
+            <h3>关于项目</h3>
+            <p>如您有一个能打动我的好点子和听起来不错的中长期规划，请您与我通过邮件 misakablog @ gamil.com 取得联络，本人可在网络方面提供微小的支持</p>
+            <p>Powered by <a href="https://miko.pw" id="">Miko.pw</a> | <a href="https://kewu.cc">kewu.cc</a></p>
+        </div>
+
+    </div>
+
+
+
+    <div class="footer">
+        <p id="uptime"></p>
+        <p>Copyright © 2023 <a href="https://miko.pw" id="">Miko.pw</a></p>
+
+    </div>
+    <!--捐赠弹出层-->
+    <div class="modal" id="donateModal">
+        <div class="modal-content">
+
+            <h2>捐赠详情</h2>
+            <p>如微信内无法扫描，请截图保存后重试</p>
+            <p>扫描下方二维码进行捐赠前，请确保您已阅读并同意我们的法务说明：</p>
+            <img src="https://r2-miko.01r.cc/miko-storage/2023/08/7a110e7af845237b35bd5bcfd728135e.webp" alt="收款二维码">
+            <p>您的支持将会用于项目的服务器和基础设施成本。</p> {点“×”以关闭弹出层}<br>
+            <span class="close-button close-button-animation" id="closeModal">&times;</span>
+        </div>
+    </div>
+    <!--法务说明弹出层-->
+    <div class="modal" id="legalModal">
+        <div class="modal-content">
+            <h2>法务说明</h2>
+            <h3>未成年人请在征得监护人同意后捐赠</h3>
+            <p>感谢您的支持，在捐赠之前，请确保您已阅读并理解我们的法务说明。</p>
+
+            <b> 捐赠用途：</b> <br>
+            您的捐赠将用于支持本项目的服务器维护、技术改进和购买资源。我们将确保您的捐款被有效且透明地用于项目的持续发展。即使您不进行赞助，您依然可以免费享受高速下载。 <br>
+            <b> 隐私保护： </b><br>
+            您的个人信息将被严格保密，并仅用于确认您的捐赠、向您发送感谢信(如有)以及必要的沟通。我们承诺不会与任何第三方分享、出售、转让您的个人信息。您的个人ID可能会被展示在捐赠者名单上 <br>
+            <b> 捐赠流程：</b> <br>
+            在您选择捐赠后，您将被展示若干二维码，您可以选择其一扫描进行捐赠。赞助金额建议不超过10元。 <br>
+            <b> 捐赠确认：</b> <br>
+            希望您在付款时保留您的备注，如 张三-赞助-联系方式 如有疑问，请随时与我们联系。 <br>
+            <b> 取消捐赠： </b><br>
+            如果您需要取消捐赠，或您不再愿意支持本项目，您可以随时与我们联系。在条件允许的情况下，我们将全额返还您的捐赠金额。 <br>
+            <b> 变更通知：</b> <br>
+            我们保留随时修改此说明的权利。我们建议您在捐赠前仔细阅读最新版本。 <br>
+            <b> 联系方式：</b> <br>
+            如有任何问题，请通过邮件与 misakablog@gmail.com 联系，会在七个工作日内与您回复。 <br>
+            再次感谢您的支持，您的捐赠将帮助我们提供更好的服务。 <br>
+            {点“×”以关闭弹出层}<br>
+            <b> 二〇二三 年 八 月 十二 日 </b> <br>
+            </p>
+            <span class="close-button close-button-animation" id="closeLegalModal">&times;</span>
+        </div>
+    </div>
+
+    <script>
+        // 隐藏加载动画
+        window.addEventListener('load', () => {
+            const loadingContainer = document.getElementById('loadingContainer');
+            loadingContainer.style.display = 'none';
+        });
+
+        const modal = document.getElementById('donateModal');
+        const openButton = document.querySelector('.donate-button');
+        const closeButton = document.getElementById('closeModal');
+
+        openButton.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        closeButton.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        //弹出层2
+        const legalLink = document.getElementById('legalLink');
+        const legalModal = document.getElementById('legalModal');
+        const closeLegalModal = document.getElementById('closeLegalModal');
+
+        legalLink.addEventListener('click', () => {
+            legalModal.style.display = 'block';
+        });
+
+        closeLegalModal.addEventListener('click', () => {
+            legalModal.style.display = 'none';
+        });
+    </script>
+
+    <script>
+        // 计算CDN已运行时间
+        const startTime = new Date('2023-04-01T14:02:19Z');
+        setInterval(updateUptime, 1000); // 每秒更新计时器
+
+        function updateUptime() {
+            const currentTime = new Date();
+            const timeDifference = currentTime - startTime;
+            const days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            const uptimeText = `已持续运行${days}天 ${hours}小时 ${minutes}分 ${seconds}秒`;
+            document.getElementById('uptime').textContent = uptimeText;
+        }
+    </script>
+</body>
+
+</html>
