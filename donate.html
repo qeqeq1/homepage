@@ -125,6 +125,8 @@
         }
 
         .modal-content {
+            width: auto;
+            /* 或其他适当的宽度值 */
             background-color: #fff;
             padding: 2rem;
             border-radius: 4px;
@@ -133,7 +135,10 @@
             animation: slideIn 0.3s ease;
             position: relative;
             /* 添加定位 */
-
+            max-height: 80vh;
+            /* 设置最大高度，保证在不同设备上正常显示 */
+            overflow-y: auto;
+            /* 允许纵向滚动 */
         }
 
         .modal-content img {
@@ -320,18 +325,29 @@
             }
         });
 
-        //弹出层2
+        // 弹出层2
         const legalLink = document.getElementById('legalLink');
         const legalModal = document.getElementById('legalModal');
         const closeLegalModal = document.getElementById('closeLegalModal');
 
+        // 打开法务说明弹出层
         legalLink.addEventListener('click', () => {
             legalModal.style.display = 'block';
         });
 
+        // 关闭法务说明弹出层
         closeLegalModal.addEventListener('click', () => {
             legalModal.style.display = 'none';
         });
+
+        // 点击外部关闭法务说明弹出层
+        window.addEventListener('click', (event) => {
+            if (event.target === legalModal) {
+                legalModal.style.display = 'none';
+            }
+        });
+
+
     </script>
 
     <script>
