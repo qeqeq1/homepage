@@ -203,6 +203,25 @@
                     transform: rotate(360deg);
                 }
             }
+        }
+
+        /*弹出层样式结束*/
+
+        /*可用性检测*/
+        .status-message {
+            font-size: 16px;
+            color: #333;
+        }
+
+        #availability {
+            color: green;
+            font-weight: bold;
+        }
+
+        #detectionTime {
+            color: blue;
+            font-weight: bold;
+        }
     </style>
 </head>
 
@@ -217,17 +236,29 @@
         <h1>支持我们的项目</h1>
         <p>共同创造更美好的世界，为我们的项目提供服务器支持！</p>
     </div>
+
+
+
     <div class="container">
         <h2>项目简介</h2>
-        <p>由于特殊原因，《次元复苏》网站在中国大陆地区访问性欠佳。为保证用户体验，《次元复苏》项目引入了付费cdn，用以提供下载加速和静态资源分发，并进行攻击防御与安全防护。迄今为止已成功响应数十万次请求与近万次APK下载、更新、分发。这产生了一定的费用
+        <p>由于特殊原因，《次元复苏》网站在中国大陆地区访问性欠佳。为保证用户体验，《次元复苏》项目引入了付费CDN，用以提供资源分发和安全防护。迄今为止已成功响应数十万次请求与近万次APK下载。
+            <br>
+            近日该游戏登入Taptap热门榜单，引得众多玩家青睐。然而，CDN三日消耗流量已达200GB。希望您能提供帮助。
         </p>
-        <p>近日该游戏登入Taptap热门榜单，引得众多玩家青睐。然而，CDN三日消耗流量已达200GB[1]。为了保证服务平稳、高效，现希望您能伸出援手。</p>
-        <p>免费的Cloudflare\Cachefly\Gcore等CDN在国内部分地区经常出现无法访问情况。这对于无法上架应用商店、依赖热更新的APP是致命的。</p>
-        <p>[1]2023.8.9-2023.8.11数据统计得到
         <h2>您的捐赠</h2>
-        <p>您的捐赠将直接用于支持项目的服务器和基础设施成本。通过您的支持，我们可以继续提供高质量的服务，推动技术创新，并使项目更加强大。</p>
-      
+        <p>您的捐赠将直接用于支持项目的服务器和基础设施成本。您的支持可以使项目更加强大。</p>
+        <!-- 检测 -->
+        <div>
+
+
+        </div>
+
+
+
         <div class="call-to-action">
+            <p class="status-message">网站 www.subrecovery.top 的可用性状态：<span id="availability">检测中..</span>|链接耗时：<span
+                    id="detectionTime">连接中...</span> 毫秒</p>
+
             <h2>一起参与！</h2>
             <p>您可以通过捐赠服务器来支持我们的项目。每一元人民币都为项目的平稳运行作出了贡献。</p>
             <p>在捐赠之前，请确保您已经阅读并同意我们的
@@ -240,13 +271,13 @@
         <div class="donor-list">
             <h3>捐赠者列表</h3>
             <div class="donor">*随 | 绝笔墨 | *行 </div>
-            <div class="donor">*猹 | *清   |  *蟹|*__</div>
+            <div class="donor">*猹 | *清 | *蟹|*__</div>
             <div class="donor">Michael Johnson</div>
             <!-- 添加更多捐赠者 -->
         </div>
         <div class="project-info">
             <h3>关于项目</h3>
-            <p>福建地区用户无法访问主站，系运营商拦截所致，请切换数据流量或更换其他网络环境，</p>
+            <p>福建地区用户无法访问，更换其他网络环境再试。<br>如您有意赞助CDN和或服务器，请与我联系：misakablog@gmail.com</p>
             <p>Powered by <a href="https://miko.pw" id="">Miko.pw</a> | <a href="https://kewu.cc">kewu.cc</a></p>
         </div>
 
@@ -301,6 +332,33 @@
     </div>
 
     <script>
+        const websiteUrl = 'https://www.subrecovery.top/app/new/upgrade.json';
+        const availabilitySpan = document.getElementById('availability');
+        const detectionTimeSpan = document.getElementById('detectionTime');
+
+        const startTime1 = new Date();
+        fetch(websiteUrl, { method: 'HEAD' })
+            .then(response => {
+                const endTime = new Date();
+                const detectionTime = endTime - startTime1;
+                detectionTimeSpan.textContent = detectionTime;
+
+                if (response.ok) {
+                    availabilitySpan.textContent = '正常 HTTP200';
+                } else {
+                    availabilitySpan.textContent = '错误';
+                }
+            })
+            .catch(error => {
+                const endTime = new Date();
+                const detectionTime = endTime - startTim1;
+                detectionTimeSpan.textContent = detectionTime;
+
+                console.error('检查可用性时发生错误:', error);
+                availabilitySpan.textContent = '发生错误';
+            });
+
+
         // 隐藏加载动画
         window.addEventListener('load', () => {
             const loadingContainer = document.getElementById('loadingContainer');
